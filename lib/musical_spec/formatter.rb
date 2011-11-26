@@ -6,8 +6,8 @@ module MusicalSpec
   class Formatter < RSpec::Core::Formatters::ProgressFormatter
     def initialize(output)
       super(output)
-      @note   = MusicalSpec::Note.new
-      @player = MusicalSpec::Player.new
+      @note   = Note.new
+      @player = Player.new
     end
 
     attr_reader :player
