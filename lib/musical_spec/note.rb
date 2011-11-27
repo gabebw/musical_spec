@@ -1,22 +1,24 @@
 module MusicalSpec
   # Uses scientific notation, e.g. C4 is middle C.
   class Note
-    # The highest octave this will play. If it goes higher than this, it will be
-    # normalized back down to MAX_OCTAVE.
-    MAX_OCTAVE = 6
-    # The lowest octave this will play. If it goes lower than this, it will be
-    # normalized back up to MIN_OCTAVE.
-    MIN_OCTAVE = 2
+    include Comparable
 
-    def initialize
-      @letter = 'C'
-      @octave = 4
+    SCALE_PROGRESSION = %w(C D E F G A B)
+
+    # Takes 1 optional argument, a note string like "C4".
+    def initialize(desired_note_string = nil)
+      if desired_note_string.nil?
+        self.note = LOWEST_NOTE.to_s
+      else
+        self.note = desired_note_string
+      end
     end
 
-    # A string like "C4". Octave (the number) does not go above MAX_OCTAVE or
-    # below MIN_OCTAVE.
-    def note
-      "#{@letter}#{normalized_octave}"
+    attr_reader :letter, :octave
+
+    # A string like "C4".
+    def to_s
+      "#{letter}#{octave}"
     end
 
     # Set the note to a new one, e.g. `note.note = 'A5'`
@@ -25,42 +27,46 @@ module MusicalSpec
       @letter = new_letter
       @octave = new_octave.to_i
 
-      note
+      to_s
     end
 
-    # Increase the pitch, handling octave changes.
+    # Increase the pitch, handling octave changes. Will not go above
+    # MusicalSpec::HIGHEST_NOTE.
     def next!
-      if @letter == 'B'
-        @letter = 'C'
-        @octave += 1
-      elsif @letter == 'G'
-        @letter = 'A'
-      else
-        @letter.next!
+      if self != HIGHEST_NOTE
+        if @letter == 'B'
+          @letter = 'C'
+          @octave += 1
+        elsif @letter == 'G'
+          @letter = 'A'
+        else
+          @letter.next!
+        end
       end
     end
 
-    # Decrease the pitch, handling octave changes.
+    # Decrease the pitch, handling octave changes. Will not go below
+    # MusicalSpec::LOWEST_NOTE.
     def prev!
-      if @letter == 'C'
-        @letter = 'B'
-        @octave -= 1
-      elsif @letter == 'A'
-        @letter = 'G'
-      else
-        @letter = (@letter.ord - 1).chr
+      if self != LOWEST_NOTE
+        if @letter == 'C'
+          @letter = 'B'
+          @octave -= 1
+        elsif @letter == 'A'
+          @letter = 'G'
+        else
+          @letter = (@letter.ord - 1).chr
+        end
       end
     end
 
-    private
-
-    def normalized_octave
-      if @octave > MAX_OCTAVE
-        MAX_OCTAVE
-      elsif @octave < MIN_OCTAVE
-        MIN_OCTAVE
+    def <=>(other_note)
+      other_letter = other_note.letter
+      other_octave = other_note.octave
+      if octave == other_octave
+        SCALE_PROGRESSION.index(letter) <=> SCALE_PROGRESSION.index(other_letter)
       else
-        @octave
+        octave <=> other_octave
       end
     end
   end
