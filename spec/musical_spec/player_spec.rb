@@ -9,17 +9,17 @@ describe MusicalSpec::Player do
   after { MusicalSpec::ONE_TRUE_BLOOPSAPHONE = @real_bloopsaphone }
 
   it 'sets the correct note' do
-    subject.play('C4')
+    subject.play(MusicalSpec::Note.new('C4'))
     fake_bloopsaphone.should have_received(:tune).with(fake_sound, 'C4')
   end
 
   it 'clears tunes before playing' do
-    subject.play('C4')
+    subject.play(MusicalSpec::Note.new('C4'))
     fake_bloopsaphone.should have_received(:clear).once
   end
 
   it 'plays the tune' do
-    subject.play('C4')
+    subject.play(MusicalSpec::Note.new('C4'))
     fake_bloopsaphone.should have_received(:play).once
   end
 

@@ -4,9 +4,9 @@ require 'rspec/core/formatters/progress_formatter'
 
 module MusicalSpec
   class Formatter < RSpec::Core::Formatters::ProgressFormatter
-    def initialize(output)
+    def initialize(output, note = nil)
       super(output)
-      @note   = Note.new
+      @note   = Note.new(note)
       @player = Player.new
     end
 
@@ -33,7 +33,7 @@ module MusicalSpec
     private
 
     def play_note
-      @player.play(note)
+      @player.play(@note)
     end
 
     def play_higher_note
@@ -44,11 +44,6 @@ module MusicalSpec
     def play_lower_note
       @note.prev!
       play_note
-    end
-
-
-    def note
-      @note.note
     end
   end
 end

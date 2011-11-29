@@ -2,25 +2,33 @@ require 'spec_helper'
 require 'stringio'
 
 describe MusicalSpec::Formatter do
-  before { subject.player.stubs(:play) }
-
   it { should be_a RSpec::Core::Formatters::ProgressFormatter }
 
   it 'plays a higher-pitched sound when an example passes' do
-    subject.example_passed(example)
-    subject.player.should have_received(:play).with('D4')
+    formatter = formatter_with_note('E4')
+    formatter.example_passed(example)
+    formatter.player.should have_received(:play).once.with(equals(MusicalSpec::Note.new('F4'))).once
   end
 
   it 'plays a lower-pitched sound when an example fails' do
-    subject.example_failed(example)
-    subject.player.should have_received(:play).with('B3')
+    formatter = formatter_with_note('E4')
+    formatter.example_failed(example)
+    formatter.player.should have_received(:play).once.with(equals(MusicalSpec::Note.new('D4'))).once
   end
 
   it 'does not change the note when an example is pending' do
-    subject.example_pending(example)
-    subject.player.should have_received(:play).with('C4')
+    formatter = formatter_with_note('E4')
+    formatter.example_pending(example)
+    formatter.player.should have_received(:play).once.with(equals(MusicalSpec::Note.new('E4'))).once
   end
 
-  subject { MusicalSpec::Formatter.new(StringIO.new) }
+  let(:subject) { MusicalSpec::Formatter.new(StringIO.new) }
   let(:example){ RSpec::Core::ExampleGroup.describe.example }
+
+  def formatter_with_note(note)
+    formatter = MusicalSpec::Formatter.new(StringIO.new, note)
+    formatter.player.stubs(:play)
+
+    formatter
+  end
 end

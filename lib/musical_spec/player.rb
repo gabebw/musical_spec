@@ -7,10 +7,10 @@ module MusicalSpec
       ONE_TRUE_BLOOPSAPHONE.tempo = 320
     end
 
-    # Takes a note string like "C4".
+    # Takes a Note instance.
     def play(note)
       ONE_TRUE_BLOOPSAPHONE.clear
-      ONE_TRUE_BLOOPSAPHONE.tune(@sound, note)
+      ONE_TRUE_BLOOPSAPHONE.tune(@sound, note.to_s)
       ONE_TRUE_BLOOPSAPHONE.play
       sleep 0.01 while ! ONE_TRUE_BLOOPSAPHONE.stopped?
     end
