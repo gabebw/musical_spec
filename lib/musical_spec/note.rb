@@ -34,13 +34,11 @@ module MusicalSpec
     # MusicalSpec::HIGHEST_NOTE.
     def next!
       if self != HIGHEST_NOTE
-        if @letter == 'B'
-          @letter = 'C'
+        if @letter == SCALE_PROGRESSION.last
+          @letter = SCALE_PROGRESSION.first
           @octave += 1
-        elsif @letter == 'G'
-          @letter = 'A'
         else
-          @letter.next!
+          @letter = SCALE_PROGRESSION[SCALE_PROGRESSION.index(@letter) + 1]
         end
       end
     end
@@ -49,13 +47,11 @@ module MusicalSpec
     # MusicalSpec::LOWEST_NOTE.
     def prev!
       if self != LOWEST_NOTE
-        if @letter == 'C'
-          @letter = 'B'
+        if @letter == SCALE_PROGRESSION.first
+          @letter = SCALE_PROGRESSION.last
           @octave -= 1
-        elsif @letter == 'A'
-          @letter = 'G'
         else
-          @letter = (@letter.ord - 1).chr
+          @letter = SCALE_PROGRESSION[SCALE_PROGRESSION.index(@letter) - 1]
         end
       end
     end
@@ -63,6 +59,7 @@ module MusicalSpec
     def <=>(other_note)
       other_letter = other_note.letter
       other_octave = other_note.octave
+
       if octave == other_octave
         SCALE_PROGRESSION.index(letter) <=> SCALE_PROGRESSION.index(other_letter)
       else
