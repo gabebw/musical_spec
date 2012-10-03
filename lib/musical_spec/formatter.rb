@@ -37,12 +37,12 @@ module MusicalSpec
     end
 
     def play_higher_note
-      @note.next!
+      @note.higher!
       play_note
     end
 
     def play_lower_note
-      @note.prev!
+      @note.lower!
       play_note
     end
   end

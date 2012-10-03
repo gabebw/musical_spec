@@ -26,7 +26,7 @@ module MusicalSpec
 
     # Increase the pitch, handling octave changes. Will not go above
     # MusicalSpec::HIGHEST_NOTE.
-    def next!
+    def higher!
       if below_highest_note?
         if @letter == SCALE_PROGRESSION.last
           @letter = SCALE_PROGRESSION.first
@@ -39,7 +39,7 @@ module MusicalSpec
 
     # Decrease the pitch, handling octave changes. Will not go below
     # MusicalSpec::LOWEST_NOTE.
-    def prev!
+    def lower!
       if above_lowest_note?
         if @letter == SCALE_PROGRESSION.first
           @letter = SCALE_PROGRESSION.last

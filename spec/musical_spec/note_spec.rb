@@ -11,13 +11,13 @@ describe MusicalSpec::Note do
 
   it 'does not go higher than B6' do
     subject.note = 'B6'
-    subject.next!
+    subject.higher!
     subject.to_s.should == 'B6'
   end
 
   it 'does not go lower than C2' do
     subject.note = 'C2'
-    subject.prev!
+    subject.lower!
     subject.to_s.should == 'C2'
   end
 
@@ -26,42 +26,42 @@ describe MusicalSpec::Note do
     subject.to_s.should == 'A4'
   end
 
-  context '#next!' do
+  context '#higher!' do
     it 'increases the note by 1' do
       subject.note = 'C4'
-      subject.next!
+      subject.higher!
       subject.to_s.should == 'D4'
     end
 
     it 'changes octaves when moving from B to C' do
       subject.note = 'B4'
-      subject.next!
+      subject.higher!
       subject.to_s.should == 'C5'
     end
 
     it 'does not change octaves when moving from G to A' do
       subject.note = 'G4'
-      subject.next!
+      subject.higher!
       subject.to_s.should == 'A4'
     end
   end
 
-  context '#prev!' do
+  context '#lower!' do
     it 'decreases the note by 1' do
       subject.note = 'E4'
-      subject.prev!
+      subject.lower!
       subject.to_s.should == 'D4'
     end
 
     it 'changes octaves when moving from C to B' do
       subject.note = 'C4'
-      subject.prev!
+      subject.lower!
       subject.to_s.should == 'B3'
     end
 
     it 'does not change octaves when moving from A to G' do
       subject.note = 'A4'
-      subject.prev!
+      subject.lower!
       subject.to_s.should == 'G4'
     end
   end
