@@ -6,25 +6,25 @@ module MusicalSpec
   class Formatter < RSpec::Core::Formatters::ProgressFormatter
     def initialize(output, note = nil)
       super(output)
-      @note   = Note.new(note)
+      @note = Note.new(note)
       @player = Player.new
     end
 
     attr_reader :player
 
-    # Plays a higher note and then calls super.
+    # Plays a higher note then call super.
     def example_passed(example)
       play_higher_note
       super(example)
     end
 
-    # Plays a lower note and then calls super.
+    # Plays a lower note then call super.
     def example_failed(example)
       play_lower_note
       super(example)
     end
 
-    # Plays a note without changing the pitch and then calls super.
+    # Plays a note without changing the pitch then call super.
     def example_pending(example)
       play_note
       super(example)
