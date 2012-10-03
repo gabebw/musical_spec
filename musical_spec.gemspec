@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["gabe@thoughtbot.com"]
   gem.description   = %q{A musical formatter for RSpec.}
   gem.summary       = %q{A musical formatter for RSpec. The sound gets lower as failures pile up, and higher when tests pass.}
-  gem.homepage      = "" # FIXME
+  gem.homepage      = "https://github.com/gabebw/musical_spec"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
