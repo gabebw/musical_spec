@@ -1,30 +1,36 @@
 require 'spec_helper'
 
 describe MusicalSpec::Player do
-  before do
-    @real_bloopsaphone = MusicalSpec::ONE_TRUE_BLOOPSAPHONE
-    MusicalSpec::ONE_TRUE_BLOOPSAPHONE = fake_bloopsaphone
-  end
-
-  after { MusicalSpec::ONE_TRUE_BLOOPSAPHONE = @real_bloopsaphone }
-
   it 'sets the correct note' do
-    subject.play(MusicalSpec::Note.new('C4'))
-    fake_bloopsaphone.should have_received(:tune).with(fake_sound, 'C4')
+    bloopsaphone_mock = build_bloopsaphone_mock
+    sound = bloopsaphone_mock.sound
+    with_one_true_bloopsaphone(bloopsaphone_mock) do
+      subject.play(MusicalSpec::Note.new('C4'))
+      bloopsaphone_mock.should have_received(:tune).with(sound, 'C4')
+    end
   end
 
   it 'clears tunes before playing' do
-    subject.play(MusicalSpec::Note.new('C4'))
-    fake_bloopsaphone.should have_received(:clear).once
+    bloopsaphone_mock = build_bloopsaphone_mock
+    with_one_true_bloopsaphone(bloopsaphone_mock) do
+      subject.play(MusicalSpec::Note.new('C4'))
+      bloopsaphone_mock.should have_received(:clear).once
+    end
   end
 
   it 'plays the tune' do
-    subject.play(MusicalSpec::Note.new('C4'))
-    fake_bloopsaphone.should have_received(:play).once
+    bloopsaphone_mock = build_bloopsaphone_mock
+    with_one_true_bloopsaphone(bloopsaphone_mock) do
+      subject.play(MusicalSpec::Note.new('C4'))
+      bloopsaphone_mock.should have_received(:play).once
+    end
   end
 
-  let(:fake_sound) { stub("Bloopsaphone sound", :sustain= => nil) }
-  let(:fake_bloopsaphone) do
+  def fake_sound
+    stub("Bloopsaphone sound", :sustain=)
+  end
+
+  def build_bloopsaphone_mock
     stub('Fake Bloopsaphone',
          :tune  => nil,
          :tempo= => nil,
@@ -32,5 +38,17 @@ describe MusicalSpec::Player do
          :clear => nil,
          :stopped? => true,
          :sound => fake_sound)
+  end
+
+  def with_one_true_bloopsaphone(new_bloopsaphone)
+    real_bloopsaphone = MusicalSpec::ONE_TRUE_BLOOPSAPHONE
+    MusicalSpec.send(:remove_const, :ONE_TRUE_BLOOPSAPHONE)
+    MusicalSpec.const_set(:ONE_TRUE_BLOOPSAPHONE, new_bloopsaphone)
+    begin
+      yield
+    ensure
+      MusicalSpec.send(:remove_const, :ONE_TRUE_BLOOPSAPHONE)
+      MusicalSpec.const_set(:ONE_TRUE_BLOOPSAPHONE, real_bloopsaphone)
+    end
   end
 end

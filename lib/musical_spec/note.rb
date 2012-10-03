@@ -7,14 +7,8 @@ module MusicalSpec
 
     # Takes 1 optional argument, a note string like "C4".
     def initialize(desired_note_string = nil)
-      if desired_note_string.nil?
-        self.note = LOWEST_NOTE.to_s
-      else
-        self.note = desired_note_string
-      end
+      self.note = desired_note_string || LOWEST_NOTE.to_s
     end
-
-    attr_reader :letter, :octave
 
     # A string like "C4".
     def to_s
@@ -33,7 +27,7 @@ module MusicalSpec
     # Increase the pitch, handling octave changes. Will not go above
     # MusicalSpec::HIGHEST_NOTE.
     def next!
-      if self != HIGHEST_NOTE
+      if below_highest_note?
         if @letter == SCALE_PROGRESSION.last
           @letter = SCALE_PROGRESSION.first
           @octave += 1
@@ -46,7 +40,7 @@ module MusicalSpec
     # Decrease the pitch, handling octave changes. Will not go below
     # MusicalSpec::LOWEST_NOTE.
     def prev!
-      if self != LOWEST_NOTE
+      if above_lowest_note?
         if @letter == SCALE_PROGRESSION.first
           @letter = SCALE_PROGRESSION.last
           @octave -= 1
@@ -56,15 +50,26 @@ module MusicalSpec
       end
     end
 
-    def <=>(other_note)
-      other_letter = other_note.letter
-      other_octave = other_note.octave
+    protected
 
-      if octave == other_octave
-        SCALE_PROGRESSION.index(letter) <=> SCALE_PROGRESSION.index(other_letter)
+    attr_reader :letter, :octave
+
+    def <=>(other_note)
+      if octave == other_note.octave
+        SCALE_PROGRESSION.index(letter) <=> SCALE_PROGRESSION.index(other_note.letter)
       else
-        octave <=> other_octave
+        octave <=> other_note.octave
       end
+    end
+
+    private
+
+    def below_highest_note?
+      self < HIGHEST_NOTE
+    end
+
+    def above_lowest_note?
+      self > LOWEST_NOTE
     end
   end
 end
