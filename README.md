@@ -1,8 +1,10 @@
 # musical_spec
 
+"A revelatory auditory experience!" - _Anonymous_
+
 An RSpec 3 formatter that plays higher notes as tests pass and lower notes as
-tests fail. A revelatory auditory experience! It's a subclass of the progress
-formatter, so you still get your pretty dots.
+tests fail. It's a subclass of the progress formatter, so you still get your
+pretty dots.
 
 ## Usage
 
