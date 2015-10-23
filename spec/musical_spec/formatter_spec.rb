@@ -27,13 +27,13 @@ describe MusicalSpec::Formatter do
 
   def formatter_with_note(note)
     MusicalSpec::Formatter.new(StringIO.new, note).tap do |formatter|
-      formatter.player.stubs(:play)
+      allow(formatter.player).to receive(:play)
     end
   end
 
   def have_played(note_string)
     note = MusicalSpec::Note.new(note_string)
-    have_received(:play).with(equals(note))
+    have_received(:play).with(note)
   end
 
   def example
