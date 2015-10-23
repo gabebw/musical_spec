@@ -16,8 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = MusicalSpec::VERSION
 
   gem.add_dependency('bloopsaphone', '~> 0.4')
-  gem.add_dependency('rspec-core', '~> 2.0')
+  gem.add_dependency('rspec-core', '~> 3.0')
 
-  gem.add_development_dependency('rspec', '~> 2.0')
-  gem.add_development_dependency('bourne', '~> 1.0')
+  gem.add_development_dependency('rspec', '~> 3.0')
 end
