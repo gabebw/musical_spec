@@ -12,22 +12,22 @@ module MusicalSpec
 
     attr_reader :player
 
-    # Plays a higher note then call super.
-    def example_passed(example)
+    # Plays a higher note then print a progress dot
+    def example_passed(notification)
       play_higher_note
-      super(example)
+      super
     end
 
-    # Plays a lower note then call super.
-    def example_failed(example)
+    # Plays a lower note then print a progress dot
+    def example_failed(notification)
       play_lower_note
-      super(example)
+      super
     end
 
-    # Plays a note without changing the pitch then call super.
-    def example_pending(example)
+    # Plays a note without changing the pitch then print a progress dot
+    def example_pending(notification)
       play_note
-      super(example)
+      super
     end
 
     private
