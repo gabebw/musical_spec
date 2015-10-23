@@ -7,6 +7,16 @@ describe MusicalSpec::Formatter do
     expect(formatter).to be_a RSpec::Core::Formatters::ProgressFormatter
   end
 
+  it 'tells RSpec that it can handle passed/failed/pending specs' do
+    registered_formatters = RSpec::Core::Formatters::Loader.formatters
+
+    expect(registered_formatters[MusicalSpec::Formatter]).to eq [
+      :example_passed,
+      :example_failed,
+      :example_pending
+    ]
+  end
+
   it 'plays a higher-pitched sound when an example passes' do
     formatter = formatter_with_note('E4')
     formatter.example_passed(example)

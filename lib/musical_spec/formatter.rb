@@ -4,6 +4,9 @@ require 'rspec/core/formatters/progress_formatter'
 
 module MusicalSpec
   class Formatter < RSpec::Core::Formatters::ProgressFormatter
+    RSpec::Core::Formatters.register self, :example_passed, :example_failed,
+      :example_pending
+
     def initialize(output, note = nil)
       super(output)
       @note = Note.new(note)
