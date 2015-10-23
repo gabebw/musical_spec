@@ -6,7 +6,7 @@ describe MusicalSpec::Player do
     sound = bloopsaphone_mock.sound
     with_one_true_bloopsaphone(bloopsaphone_mock) do
       subject.play(MusicalSpec::Note.new('C4'))
-      bloopsaphone_mock.should have_received(:tune).with(sound, 'C4')
+      expect(bloopsaphone_mock).to have_received(:tune).with(sound, 'C4')
     end
   end
 
@@ -14,7 +14,7 @@ describe MusicalSpec::Player do
     bloopsaphone_mock = build_bloopsaphone_mock
     with_one_true_bloopsaphone(bloopsaphone_mock) do
       subject.play(MusicalSpec::Note.new('C4'))
-      bloopsaphone_mock.should have_received(:clear).once
+      expect(bloopsaphone_mock).to have_received(:clear).once
     end
   end
 
@@ -22,7 +22,7 @@ describe MusicalSpec::Player do
     bloopsaphone_mock = build_bloopsaphone_mock
     with_one_true_bloopsaphone(bloopsaphone_mock) do
       subject.play(MusicalSpec::Note.new('C4'))
-      bloopsaphone_mock.should have_received(:play).once
+      expect(bloopsaphone_mock).to have_received(:play).once
     end
   end
 
