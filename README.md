@@ -1,6 +1,6 @@
 # musical_spec
 
-An RSpec formatter that plays higher notes as tests pass and lower notes as
+An RSpec 3 formatter that plays higher notes as tests pass and lower notes as
 tests fail. A revelatory auditory experience! It's a subclass of the progress
 formatter, so you still get your pretty dots.
 
