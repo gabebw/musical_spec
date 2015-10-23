@@ -27,17 +27,19 @@ describe MusicalSpec::Player do
   end
 
   def fake_sound
-    stub("Bloopsaphone sound", :sustain=)
+    double("Bloopsaphone sound", "sustain=" => nil)
   end
 
   def build_bloopsaphone_mock
-    stub('Fake Bloopsaphone',
-         :tune  => nil,
-         :tempo= => nil,
-         :play  => nil,
-         :clear => nil,
-         :stopped? => true,
-         :sound => fake_sound)
+    double(
+      'Fake Bloopsaphone',
+      :tune  => nil,
+      :tempo= => nil,
+      :play  => nil,
+      :clear => nil,
+      :stopped? => true,
+      :sound => fake_sound,
+    )
   end
 
   def with_one_true_bloopsaphone(new_bloopsaphone)
